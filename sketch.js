@@ -1,3 +1,11 @@
+var PLAY=1;
+
+var END=0;
+
+var gameState=PLAY
+
+var score
+
 var trex;
 
 var ground,groundimg,invisibleground;
@@ -26,6 +34,8 @@ invisibleground=createSprite(100,200,200,10);
 
 invisibleground.visible=false;
 
+score=0;
+
 trex.scale=0.5 ;
 
 }
@@ -50,21 +60,43 @@ function draw(){
 
 background("white");
 
+text("Score "+score ,500,30) ;
+
+if(gameState === PLAY){
+   
+ground.velocityX=-3;
+
+spawnObstacles()
+spawnClouds()
+
+if(keyDown("space")&&trex.y>=100) {
+
+    trex.velocityY=-10 ;
+}
+
+score=score+Math.round(frameCount/60)
+if(ground.x<0){
+
+    ground.x=ground.width/2;
+    
+    }
+
+}
+
+else if(gameState === END){
+ground.velocityX=0;
+
+
+}
 
 trex.collide(invisibleground);
-
-ground.velocityX=-3 ;
 
 if(keyDown("space")) {
 
 trex.velocityY=-10 ;
 
 }
-if(ground.x<0){
 
-ground.x=ground.width/2;
-
-}
 //Gravedad
 trex.velocityY=trex.velocityY+0.8 ;
 
@@ -81,7 +113,7 @@ function spawnClouds() {
     
     cloud.velocityX = -3;
 
-    cloud.lifetime=220
+    cloud.lifetime=220 ;
     }
      
 }
